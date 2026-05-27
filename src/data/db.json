@@ -1,0 +1,128 @@
+{
+  "perspective": [
+    {
+      "id": "1",
+      "year": "1995",
+      "title": "จุดเริ่มต้นของเรื่องราว",
+      "description": "ถือกำเนิดขึ้นท่ามกลางบ่ายวันสบายๆ สัมผัสแรกในโลกสีนวลที่บ่มเพาะความเป็นตัวตนผู้รักในรายละเอียดของชีวิตและการเดินทางอันแสนเรียบง่าย",
+      "note": "A quiet afternoon, the start of an unhurried perspective. The birth of a seeker.",
+      "image": ""
+    },
+    {
+      "id": "2",
+      "year": "2013",
+      "title": "ก้าวสำคัญสู่วิชาการ",
+      "description": "เข้าศึกษาต่อด้านวิทยาศาสตร์และเทคโนโลยี ค้นหาความเชื่อมโยงระหว่างตัวเลข ตรรกศาสตร์การโค้ดดิ้ง และการแสดงออกทางศิลปะที่ซ่อนอยู่ภายในจิตใจ",
+      "note": "Entering university. Finding the fine line between logical structures and soft arts.",
+      "image": ""
+    },
+    {
+      "id": "3",
+      "year": "2018",
+      "title": "ชีวิตนักวิจัยและผู้ไขโจทย์",
+      "description": "ก้าวเข้าสู่วงการวิจัยประมวลผลข้อมูลและอัลกอริทึม ค้นพบลายเส้นการคิดแก้ปัญหาที่ซับซ้อน ท้าทายขีดจำกัดทางความคิดและการพัฒนาเทคโนโลยีในชีวิตจริง",
+      "note": "Solver mode activated. Translating complex graphs into actionable computational systems.",
+      "image": ""
+    },
+    {
+      "id": "4",
+      "year": "2022",
+      "title": "การสะท้อนองค์ความรู้",
+      "description": "เริ่มต้นแบ่งปันเนื้อหาวิชาการ บรรยายพิเศษให้แก่นักศึกษาปริญญาตรีและผู้สนใจเรียนรู้ด้านระบบวิทยาการ สื่อสารทฤษฎียากๆ ให้เข้าใจง่ายด้วยหัวใจของผู้ให้",
+      "note": "Sharing is reflecting. Teaching became the ultimate mirror to examine my own learning.",
+      "image": ""
+    },
+    {
+      "id": "5",
+      "year": "2026",
+      "title": "ปัจจุบันอันอบอุ่น",
+      "description": "สร้างสรรค์พื้นที่ส่วนตัวแห่งนี้ เพื่อเชื่อมต่อชีวิตงานและการใช้ชีวิต ถ่ายทอดมุมมอง ลิ้มรสอาหารรสเลิศ และสร้างสิ่งใหม่ในฐานะ 'Lover' และ 'Solver'",
+      "note": "Lover of authentic moments, solver of complex systems. The journey continues.",
+      "image": ""
+    }
+  ],
+  "creative": [
+    {
+      "id": "101",
+      "title": "Organic Spaces",
+      "category": "Moments",
+      "year": "2024",
+      "description": "นิทรรศการภาพถ่ายฟิล์มโทนอบอุ่น สะท้อนความกลมกลืนระหว่างสถาปัตยกรรมสีครีมนวล แสงแดดยามบ่าย และเงาไม้ที่ทอดยาวอย่างสงบ",
+      "image": ""
+    },
+    {
+      "id": "102",
+      "title": "Antigravity UI Kit",
+      "category": "Creations",
+      "year": "2025",
+      "description": "ชุด UI Component ไร้น้ำหนักผสานฟังก์ชันการทำงานที่ทรงประสิทธิภาพ มีการเคลื่อนไหวที่สมูท เป็นมิตรต่อระบบประสาทสัมผัสและสายตา",
+      "image": ""
+    },
+    {
+      "id": "103",
+      "title": "Un-hurried Moments",
+      "category": "Archive",
+      "year": "2023",
+      "description": "สมุดบันทึกภาพดิจิทัลฉบับจำกัด รวบรวมช่วงเวลาที่มีคุณค่าในร้านกาแฟและสถานที่ห่างไกลจากความเร่งรีบของเมืองใหญ่",
+      "image": ""
+    }
+  ],
+  "reflective": [
+    {
+      "id": "201",
+      "title": "Introduction to Advanced Algorithms & Logic Structures",
+      "description": "การบรรยายพิเศษความยาว 2 ชั่วโมงเต็มสำหรับนักศึกษาวิทยาการคอมพิวเตอร์ เจาะลึกแนวคิดด้วยภาพวาดและการอุปมาอุปไมยเพื่อให้จดจำได้ง่าย",
+      "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "type": "Lecture",
+      "duration": "2h 15m"
+    },
+    {
+      "id": "202",
+      "title": "Scientific Computing and Multi-Agent Architectures",
+      "description": "ชุดสไลด์บรรยายประกอบงานวิจัยการประมวลผลแบบขนานและการออกแบบพฤติกรรมเอเจนต์อัจฉริยะ เหมาะสำหรับผู้ทำโปรเจกต์จบและนักวิจัยรุ่นใหม่",
+      "link": "https://arxiv.org/abs/1706.03762",
+      "type": "Slides",
+      "duration": "Slide Deck (PDF)"
+    },
+    {
+      "id": "203",
+      "title": "The Art of Problem Solving in Computational Biology",
+      "description": "บทความสะท้อนความคิดความสัมพันธ์ระหว่างศาสตร์วิทยาการคอมพิวเตอร์และธรรมชาติของสิ่งมีชีวิต ค้นหาคำตอบของชีวิตผ่านรหัสพันธุกรรม",
+      "link": "https://pubmed.ncbi.nlm.nih.gov/",
+      "type": "Resources",
+      "duration": "Read Time: 15m"
+    }
+  ],
+  "fooder": [
+    {
+      "id": "301",
+      "name": "Creamy Brews & Diaries",
+      "category": "Cafe",
+      "lat": 13.7563,
+      "lng": 100.5018,
+      "review": "คาเฟ่บรรยากาศอบอุ่นเสิร์ฟกาแฟดริปชั้นเลิศ พร้อมแสงธรรมชาติส่องเข้ามาอย่างอ่อนโยน เหมาะแก่การพกไดอารี่มาเขียนทบทวนความคิดในวันว่าง",
+      "rating": 5,
+      "image": ""
+    },
+    {
+      "id": "302",
+      "name": "The Un-hurried Kitchen",
+      "category": "Restaurant",
+      "lat": 13.7469,
+      "lng": 100.5349,
+      "review": "ร้านอาหารโฮมเมดแบบออร์แกนิก ปรุงอย่างละเมียดละไมโดยเชฟผู้ใส่ใจในทุกรายละเอียด รสชาตินุ่มนวลชวนให้ตักทานอย่างช้าๆ",
+      "rating": 4.8,
+      "image": ""
+    },
+    {
+      "id": "303",
+      "name": "Sunset River Viewpoint",
+      "category": "Sightseeing",
+      "lat": 13.7242,
+      "lng": 100.5188,
+      "review": "จุดลับริมโค้งแม่น้ำเจ้าพระยา แสงสีส้มทองยามอาทิตย์อัสดงตกกระทบผิวน้ำสะท้อนความงามที่ช่วยปลดเปลื้องภาระตรรกะทางสมองของ Solver ได้ดีเยี่ยม",
+      "rating": 4.9,
+      "image": ""
+    }
+  ]
+}
