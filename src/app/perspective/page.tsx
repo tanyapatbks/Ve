@@ -18,12 +18,11 @@ async function getPerspectiveData() {
 
 export default async function PerspectivePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-cream-bg pt-20">
+    <div className="flex flex-col h-screen overflow-hidden bg-zinc-950">
       <Header />
-      <main className="flex-grow py-12">
+      <main className="flex-grow pt-20 h-[calc(100vh-80px)] overflow-hidden relative">
         <Perspective />
       </main>
-      <Footer />
     </div>
   );
 }
