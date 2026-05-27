@@ -70,11 +70,13 @@
   "reflective": [
     {
       "id": "201",
-      "title": "Introduction to Advanced Algorithms & Logic Structures",
-      "description": "การบรรยายพิเศษความยาว 2 ชั่วโมงเต็มสำหรับนักศึกษาวิทยาการคอมพิวเตอร์ เจาะลึกแนวคิดด้วยภาพวาดและการอุปมาอุปไมยเพื่อให้จดจำได้ง่าย",
-      "link": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "title": "C4Model - PlantUML - Prompts",
+      "description": "การบรรยายพิเศษเกี่ยวกับการทำความเข้าใจและเขียนแผนภาพโครงสร้างสถาปัตยกรรมซอฟต์แวร์ด้วย C4 Model ร่วมกับการใช้งานเครื่องมือ PlantUML และการสร้าง Prompt คุณภาพสูงเพื่อควบคุม AI ช่วยเขียนโค้ดได้อย่างมีประสิทธิภาพสูงสุด",
+      "link": "https://youtu.be/bMkDKhrw3L0?si=vwuSnxDDCDj9rjaA",
       "type": "Lecture",
-      "duration": "2h 15m"
+      "duration": "19:00",
+      "views": 133,
+      "age": "9 months ago"
     },
     {
       "id": "202",
@@ -82,7 +84,9 @@
       "description": "ชุดสไลด์บรรยายประกอบงานวิจัยการประมวลผลแบบขนานและการออกแบบพฤติกรรมเอเจนต์อัจฉริยะ เหมาะสำหรับผู้ทำโปรเจกต์จบและนักวิจัยรุ่นใหม่",
       "link": "https://arxiv.org/abs/1706.03762",
       "type": "Slides",
-      "duration": "Slide Deck (PDF)"
+      "duration": "Slide Deck",
+      "views": 412,
+      "age": "1 year ago"
     },
     {
       "id": "203",
@@ -90,10 +94,12 @@
       "description": "บทความสะท้อนความคิดความสัมพันธ์ระหว่างศาสตร์วิทยาการคอมพิวเตอร์และธรรมชาติของสิ่งมีชีวิต ค้นหาคำตอบของชีวิตผ่านรหัสพันธุกรรม",
       "link": "https://pubmed.ncbi.nlm.nih.gov/",
       "type": "Resources",
-      "duration": "Read Time: 15m"
+      "duration": "15m Read",
+      "views": 89,
+      "age": "2 years ago"
     }
   ],
-  "fooder": [
+  "eatver": [
     {
       "id": "301",
       "name": "Creamy Brews & Diaries",

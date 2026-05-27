@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   ArrowLeft, Lock, Save, Trash2, Edit2, Plus, 
-  LogOut, Calendar, Star, MapPin, Video, Sparkles, BookOpen 
+  LogOut, Star, MapPin, Video, Sparkles, BookOpen 
 } from "lucide-react";
 
 export default function AdminPage() {
@@ -14,14 +14,14 @@ export default function AdminPage() {
   const [toast, setToast] = useState({ message: "", type: "" });
   
   // Tab control
-  const [activeTab, setActiveTab] = useState<"perspective" | "creative" | "reflective" | "fooder">("perspective");
+  const [activeTab, setActiveTab] = useState<"perspective" | "creative" | "reflective" | "eatver">("perspective");
   
   // Database state
   const [db, setDb] = useState<any>({
     perspective: [],
     creative: [],
     reflective: [],
-    fooder: []
+    eatver: []
   });
 
   // Modal forms state
@@ -125,8 +125,8 @@ export default function AdminPage() {
     } else if (activeTab === "creative") {
       emptyItem = { ...emptyItem, title: "", category: "Moments", year: "", description: "", image: "" };
     } else if (activeTab === "reflective") {
-      emptyItem = { ...emptyItem, title: "", description: "", link: "", type: "Lecture", duration: "" };
-    } else if (activeTab === "fooder") {
+      emptyItem = { ...emptyItem, title: "", description: "", link: "", type: "Lecture", duration: "19:00", views: 133, age: "9 months ago" };
+    } else if (activeTab === "eatver") {
       emptyItem = { ...emptyItem, name: "", category: "Cafe", lat: 13.74, lng: 100.52, review: "", rating: 5, image: "" };
     }
     setFormState(emptyItem);
@@ -137,12 +137,15 @@ export default function AdminPage() {
     e.preventDefault();
     let updatedSection = [...db[activeTab]];
 
-    // Parse lat/lng and rating to numbers for Fooder pins to prevent maps crash!
     const finalFormState = { ...formState };
-    if (activeTab === "fooder") {
+    if (activeTab === "eatver") {
       finalFormState.lat = parseFloat(finalFormState.lat) || 13.74;
       finalFormState.lng = parseFloat(finalFormState.lng) || 100.52;
       finalFormState.rating = parseFloat(finalFormState.rating) || 5;
+    }
+
+    if (activeTab === "reflective" && finalFormState.type.toLowerCase() === "lecture") {
+      finalFormState.views = parseInt(finalFormState.views) || 133;
     }
 
     if (isEditing === "new") {
@@ -160,7 +163,6 @@ export default function AdminPage() {
   if (!isAuthenticated) {
     return (
       <main className="min-h-screen bg-cream-bg flex flex-col justify-center items-center px-6 relative">
-        {/* Simple Return link */}
         <Link 
           href="/" 
           className="absolute top-6 left-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-cream-mid hover:text-cream-ink transition-colors"
@@ -168,7 +170,6 @@ export default function AdminPage() {
           <ArrowLeft size={14} /> Back to Space
         </Link>
 
-        {/* Secure Form Panel */}
         <div className="max-w-md w-full bg-cream-bg border border-cream-muted/50 rounded-2xl p-8 shadow-md">
           <div className="flex justify-center mb-4 text-cream-mid">
             <Lock size={32} />
@@ -280,12 +281,12 @@ export default function AdminPage() {
             <Video size={16} /> Reflective
           </button>
           <button
-            onClick={() => { setActiveTab("fooder"); setIsEditing(null); }}
+            onClick={() => { setActiveTab("eatver"); setIsEditing(null); }}
             className={`w-full text-left px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider flex items-center gap-2.5 transition-all ${
-              activeTab === "fooder" ? "bg-cream-ink text-cream-bg shadow-sm" : "hover:bg-cream-surface text-cream-mid hover:text-cream-ink"
+              activeTab === "eatver" ? "bg-cream-ink text-cream-bg shadow-sm" : "hover:bg-cream-surface text-cream-mid hover:text-cream-ink"
             }`}
           >
-            <MapPin size={16} /> Fooder
+            <MapPin size={16} /> Eatver
           </button>
         </aside>
 
@@ -441,10 +442,10 @@ export default function AdminPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Duration / Scale</label>
+                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Duration badge (e.g. 19:00)</label>
                       <input
                         type="text"
-                        placeholder="e.g. 2h 15m or PDF Deck"
+                        placeholder="e.g. 19:00 or Slide Deck"
                         value={formState.duration || ""}
                         onChange={(e) => setFormState({ ...formState, duration: e.target.value })}
                         className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
@@ -463,6 +464,31 @@ export default function AdminPage() {
                       />
                     </div>
                   </div>
+
+                  {formState.type?.toLowerCase() === "lecture" && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">View Count (Numeric)</label>
+                        <input
+                          type="number"
+                          placeholder="e.g. 133"
+                          value={formState.views || ""}
+                          onChange={(e) => setFormState({ ...formState, views: e.target.value })}
+                          className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Upload Age (Thai/English)</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 9 เดือนที่ผ่านมา"
+                          value={formState.age || ""}
+                          onChange={(e) => setFormState({ ...formState, age: e.target.value })}
+                          className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Resource Link URL</label>
@@ -489,7 +515,7 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {activeTab === "fooder" && (
+              {activeTab === "eatver" && (
                 <div className="grid grid-cols-1 gap-4">
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <div className="sm:col-span-2">

@@ -25,7 +25,7 @@ export default function Header() {
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <Link href="#home" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group">
           <Image 
             src="/Ve-Tan-Boon.png" 
             alt="Ve Tan Boon Logo" 
@@ -38,20 +38,20 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 font-sans text-sm tracking-widest uppercase font-medium text-cream-ink/80">
-          <Link href="#perspective" className="hover:text-cream-mid transition-colors relative py-1 group">
+          <Link href="/perspective" className="hover:text-cream-mid transition-colors relative py-1 group">
             Perspective
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cream-mid transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="#creative" className="hover:text-cream-mid transition-colors relative py-1 group">
+          <Link href="/creative" className="hover:text-cream-mid transition-colors relative py-1 group">
             Creative
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cream-mid transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="#reflective" className="hover:text-cream-mid transition-colors relative py-1 group">
+          <Link href="/reflective" className="hover:text-cream-mid transition-colors relative py-1 group">
             Reflective
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cream-mid transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="#fooder" className="hover:text-cream-mid transition-colors relative py-1 group">
-            Fooder
+          <Link href="/eatver" className="hover:text-cream-mid transition-colors relative py-1 group">
+            Eatver
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cream-mid transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link href="/admin" className="px-4 py-2 border border-cream-mid/50 rounded-full hover:bg-cream-surface transition-all duration-300 text-xs font-semibold text-cream-mid">
@@ -72,32 +72,32 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-cream-bg border-b border-cream-muted/50 p-6 flex flex-col gap-4 font-sans text-sm tracking-widest uppercase font-medium text-cream-ink shadow-lg animate-fade-in">
           <Link 
-            href="#perspective" 
+            href="/perspective" 
             onClick={() => setMobileMenuOpen(false)}
             className="hover:text-cream-mid transition-colors py-2 border-b border-cream-surface"
           >
             Perspective
           </Link>
           <Link 
-            href="#creative" 
+            href="/creative" 
             onClick={() => setMobileMenuOpen(false)}
             className="hover:text-cream-mid transition-colors py-2 border-b border-cream-surface"
           >
             Creative
           </Link>
           <Link 
-            href="#reflective" 
+            href="/reflective" 
             onClick={() => setMobileMenuOpen(false)}
             className="hover:text-cream-mid transition-colors py-2 border-b border-cream-surface"
           >
             Reflective
           </Link>
           <Link 
-            href="#fooder" 
+            href="/eatver" 
             onClick={() => setMobileMenuOpen(false)}
             className="hover:text-cream-mid transition-colors py-2 border-b border-cream-surface"
           >
-            Fooder
+            Eatver
           </Link>
           <Link 
             href="/admin" 

@@ -2,96 +2,111 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowDown, Coffee, Code } from "lucide-react";
+import Link from "next/link";
+import { Coffee, Code, ArrowRight } from "lucide-react";
 
 export default function Hero() {
   const [activeSide, setActiveSide] = useState<"lover" | "solver" | null>(null);
 
   return (
-    <section id="home" className="relative h-screen w-full overflow-hidden bg-cream-bg flex items-center">
+    <section className="relative w-full h-full overflow-hidden flex items-center bg-cream-bg">
       {/* Dynamic Background Split Glow */}
       <div className="absolute inset-0 flex transition-all duration-700 ease-out">
-        <div className={`h-full transition-all duration-700 ease-out flex items-center justify-center relative overflow-hidden ${
-          activeSide === "lover" ? "w-[58%] bg-amber-50/40" : activeSide === "solver" ? "w-[42%] bg-zinc-100/10" : "w-1/2 bg-transparent"
+        {/* Left: Lover side container */}
+        <div className={`h-full transition-all duration-700 ease-out relative overflow-hidden flex flex-col justify-center px-8 sm:px-16 lg:px-24 ${
+          activeSide === "lover" ? "w-[60%] bg-amber-50/40" : activeSide === "solver" ? "w-[40%] bg-zinc-100/10" : "w-1/2 bg-transparent"
         }`}>
-          {/* Subtle warm orange gradient for Lover side */}
+          {/* Subtle warm orange gradient */}
           <div className="absolute inset-0 bg-radial-gradient from-amber-200/10 to-transparent opacity-50 pointer-events-none" />
-        </div>
-        <div className={`h-full transition-all duration-700 ease-out flex items-center justify-center relative overflow-hidden ${
-          activeSide === "solver" ? "w-[58%] bg-teal-50/15" : activeSide === "lover" ? "w-[42%] bg-zinc-100/10" : "w-1/2 bg-transparent"
-        }`}>
-          {/* Subtle teal gradient for Solver side */}
-          <div className="absolute inset-0 bg-radial-gradient from-teal-100/15 to-transparent opacity-50 pointer-events-none" />
-        </div>
-      </div>
-
-      {/* Main Container */}
-      <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
-        
-        {/* Left Interactive Side: Lover */}
-        <div 
-          className="w-full md:w-1/2 h-[45%] md:h-full flex flex-col justify-center items-start md:pr-16 cursor-pointer select-none group/left transition-all duration-500 py-6"
-          onMouseEnter={() => setActiveSide("lover")}
-          onMouseLeave={() => setActiveSide(null)}
-        >
+          
           <div className={`transition-all duration-500 transform ${
-            activeSide === "lover" ? "scale-105 translate-x-2" : activeSide === "solver" ? "opacity-25 scale-95 blur-[1px]" : ""
+            activeSide === "lover" ? "scale-105 translate-x-2" : activeSide === "solver" ? "opacity-20 scale-95 blur-[1px]" : ""
           }`}>
-            <div className="flex items-center gap-2 text-amber-700/80 font-serif italic text-lg mb-2">
-              <Coffee size={18} className="animate-pulse" />
-              <span>สองร่างในคนเดียว — ชีวิตส่วนตัว</span>
+            <div className="flex items-center gap-2 text-amber-700/80 font-serif italic text-base sm:text-lg mb-2">
+              <Coffee size={18} />
+              <span>ชีวิตส่วนตัว — The Lover</span>
             </div>
-            <h1 className="font-serif italic text-3xl sm:text-4xl lg:text-6xl text-cream-ink leading-tight font-medium">
-              The Lover <br />
-              <span className="text-amber-800 tracking-wide font-normal text-2xl sm:text-3xl lg:text-4xl">อบอุ่น อ่อนโยน บันทึกด้วยใจ</span>
+            
+            <h1 className="font-serif italic text-3xl sm:text-5xl lg:text-7xl text-cream-ink leading-tight font-medium">
+              Lover <br />
+              <span className="text-amber-800 tracking-wide font-normal text-xl sm:text-3xl lg:text-4xl">อบอุ่น อ่อนโยน บันทึกด้วยใจ</span>
             </h1>
-            <p className="font-handwriting text-xl sm:text-2xl lg:text-3xl text-cream-mid mt-4 max-w-md leading-relaxed">
-              "เพราะโลกมีความงามซ่อนอยู่ในรอยยิ้ม ร้านกาแฟแสนสงบ และบันทึกเขียนมือที่ไม่เร่งร้อน..."
+            
+            <p className="font-handwriting text-xl sm:text-2xl lg:text-3xl text-cream-mid mt-4 max-w-sm leading-relaxed">
+              "ความงามในความเรียบง่าย ร้านกาแฟ และบันทึกห้วงความรู้สึก..."
             </p>
-            <div className="mt-6 flex items-center gap-3 text-xs sm:text-sm text-amber-700/80 uppercase tracking-widest font-semibold">
-              <span>Moments</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              <span>Authenticity</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-              <span>Intimacy</span>
+
+            {/* Portal Navigation Links for Lover */}
+            <div className={`mt-8 flex flex-col sm:flex-row gap-4 transition-all duration-500 ${
+              activeSide === "lover" ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            }`}>
+              <Link 
+                href="/perspective"
+                className="px-6 py-3 bg-amber-100 hover:bg-amber-200/80 border border-amber-200 text-amber-900 rounded-full font-serif italic font-semibold text-sm shadow-sm transition-all duration-300 hover:shadow flex items-center justify-between gap-4 group"
+              >
+                <span>Enter Perspective</span>
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link 
+                href="/creative"
+                className="px-6 py-3 bg-cream-surface hover:bg-cream-muted/20 border border-cream-muted text-cream-ink rounded-full font-serif italic font-semibold text-sm shadow-sm transition-all duration-300 hover:shadow flex items-center justify-between gap-4 group"
+              >
+                <span>Enter Creative</span>
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Right Interactive Side: Solver */}
-        <div 
-          className="w-full md:w-1/2 h-[45%] md:h-full flex flex-col justify-center items-start md:pl-16 cursor-pointer select-none group/right transition-all duration-500 py-6 border-t md:border-t-0 md:border-l border-cream-muted/30"
-          onMouseEnter={() => setActiveSide("solver")}
-          onMouseLeave={() => setActiveSide(null)}
-        >
+        {/* Right: Solver side container */}
+        <div className={`h-full transition-all duration-700 ease-out relative overflow-hidden flex flex-col justify-center px-8 sm:px-16 lg:px-24 border-l border-cream-muted/30 ${
+          activeSide === "solver" ? "w-[60%] bg-teal-50/15" : activeSide === "lover" ? "w-[40%] bg-zinc-100/10" : "w-1/2 bg-transparent"
+        }`}>
+          {/* Subtle cool teal gradient */}
+          <div className="absolute inset-0 bg-radial-gradient from-teal-100/15 to-transparent opacity-50 pointer-events-none" />
+
           <div className={`transition-all duration-500 transform ${
-            activeSide === "solver" ? "scale-105 md:-translate-x-2" : activeSide === "lover" ? "opacity-25 scale-95 blur-[1px]" : ""
+            activeSide === "solver" ? "scale-105 md:-translate-x-2" : activeSide === "lover" ? "opacity-20 scale-95 blur-[1px]" : ""
           }`}>
             <div className="flex items-center gap-2 text-teal-700/90 font-sans text-sm tracking-widest uppercase font-semibold mb-2">
               <Code size={16} />
-              <span>สองร่างในคนเดียว — ชีวิตงาน</span>
+              <span>ชีวิตงาน — The Solver</span>
             </div>
-            <h2 className="font-serif italic text-3xl sm:text-4xl lg:text-6xl text-cream-ink leading-tight font-medium">
-              The Solver <br />
-              <span className="text-teal-900 tracking-wide font-sans font-normal text-2xl sm:text-3xl lg:text-4xl">แม่นยำ ทรงพลัง ไขโจทย์ประมวลผล</span>
+            
+            <h2 className="font-serif italic text-3xl sm:text-5xl lg:text-7xl text-cream-ink leading-tight font-medium">
+              Solver <br />
+              <span className="text-teal-900 tracking-wide font-sans font-normal text-xl sm:text-3xl lg:text-4xl font-light">ตรรกะ แม่นยำ ไขโจทย์ระบบ</span>
             </h2>
-            <p className="text-xs sm:text-sm lg:text-base text-cream-mid mt-4 max-w-md leading-relaxed font-sans font-light">
-              "Solving complex computation models and engineering datasets with structured logic. Science is but a code to translate nature."
+            
+            <p className="text-xs sm:text-sm lg:text-base text-cream-mid mt-4 max-w-sm leading-relaxed font-sans font-light">
+              "Solving complex computation models and engineering datasets with structured logic."
             </p>
-            <div className="mt-6 flex items-center gap-3 text-xs sm:text-sm text-teal-800/80 uppercase tracking-widest font-semibold">
-              <span>Research</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-              <span>Algorithms</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-500" />
-              <span>Engineering</span>
+
+            {/* Portal Navigation Links for Solver */}
+            <div className={`mt-8 flex flex-col sm:flex-row gap-4 transition-all duration-500 ${
+              activeSide === "solver" ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+            }`}>
+              <Link 
+                href="/reflective"
+                className="px-6 py-3 bg-teal-950 hover:bg-teal-900 text-teal-50 rounded-full font-sans font-semibold text-xs tracking-wider uppercase shadow-sm transition-all duration-300 hover:shadow flex items-center justify-between gap-4 group"
+              >
+                <span>Enter Reflective</span>
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link 
+                href="/eatver"
+                className="px-6 py-3 bg-cream-surface hover:bg-cream-muted/20 border border-cream-muted text-cream-ink rounded-full font-sans font-semibold text-xs tracking-wider uppercase shadow-sm transition-all duration-300 hover:shadow flex items-center justify-between gap-4 group"
+              >
+                <span>Enter Eatver</span>
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         </div>
-
       </div>
 
       {/* Floating Center Portrait Anchor */}
-      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none transition-all duration-700 hidden md:block ${
+      <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none transition-all duration-700 hidden lg:block ${
         activeSide === "lover" ? "rotate-2 scale-[1.02]" : activeSide === "solver" ? "-rotate-2 scale-[1.02]" : ""
       }`}>
         <div className="relative w-[320px] h-[320px] lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-[6px] border-cream-bg shadow-2xl transition-all duration-500 bg-cream-surface">
@@ -105,16 +120,14 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Down Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none">
-        <span className="text-[10px] tracking-widest uppercase text-cream-mid font-semibold font-sans">
-          Scroll to explore
-        </span>
-        <div className="w-8 h-8 rounded-full bg-cream-surface border border-cream-muted/50 flex items-center justify-center text-cream-mid animate-bounce shadow-sm">
-          <ArrowDown size={14} />
+      {/* Help hover notice when neutral */}
+      {!activeSide && (
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-center bg-cream-surface/30 backdrop-blur-[2px] border border-cream-muted/20 px-6 py-2 rounded-full shadow-sm animate-pulse">
+          <p className="text-[10px] tracking-widest uppercase font-bold text-cream-mid">
+            Hover either side to enter portals
+          </p>
         </div>
-      </div>
-
+      )}
     </section>
   );
 }
