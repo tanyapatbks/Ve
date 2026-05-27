@@ -1,283 +1,262 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { BookOpen, MessageCircle, Send, Star, User } from "lucide-react";
+import { MessageCircle, Send } from "lucide-react";
 
-interface PerspectiveItem {
+interface MindmapItem {
   id: string;
   year: string;
   title: string;
   description: string;
   note: string;
-  image?: string;
+  image: string;
 }
 
-interface PerspectiveProps {
-  items: PerspectiveItem[];
-}
+export default function Perspective() {
+  const mindmaps: MindmapItem[] = [
+    {
+      id: "1",
+      year: "2026",
+      title: "Software Engineering Is Splitting",
+      description: "Software engineering is splitting into two worlds. On one side, AI writes the code natively. On the other side, humans define structural intent, govern system tradeoffs, and maintain overall code quality.",
+      note: "มนุษย์คือกำหนดทิศทางและควบคุมระบบ ส่วน AI คือผู้ช่วยเขียนโค้ดและประมวลผล...",
+      image: "/mindmaps/1.png"
+    },
+    {
+      id: "2",
+      year: "2026",
+      title: "Software 3.0",
+      description: "Tracing the paradigm shift in software development: from manual handcrafted code (1.0) and machine learning from datasets (2.0) to natural language intent compiled by autonomous AI agents (3.0). Highlighting strict constraints, reviews, and validation rules.",
+      note: "ยุคสมัยใหม่แห่งการส่งสัญญาณเจตจำนงของมนุษย์ เพื่อสั่งการฝูงเอเจนต์อัจฉริยะ...",
+      image: "/mindmaps/2.png"
+    },
+    {
+      id: "3",
+      year: "2026",
+      title: "Agentic Engineering",
+      description: "Deep dive into the lifecycle of building agentic environments: setting clear goals, feeding dense context, defining distinct agent roles (Planner, Coder, Reviewer), maintaining system rules, running unit tests, and verifying diff correctness.",
+      note: "บทบาทใหม่ของนักพัฒนาคือการกำหนดขอบเขต กฎกติกา และการตรวจสอบพฤติกรรม...",
+      image: "/mindmaps/3.png"
+    },
+    {
+      id: "4",
+      year: "2026",
+      title: "Why AI Coding Needs Reviewer Agents",
+      description: "Explaining the necessity of dual-agent feedback loops. While a Builder Agent excels at producing rapid code, a Reviewer Agent is essential to discover edge cases, audit security breaches, flag performance bottlenecks, and guarantee ultimate quality.",
+      note: "สองหัวดีกว่าหัวเดียว: เอเจนต์สร้างโค้ดคู่ขนานกับเอเจนต์รีวิวเพื่อความแม่นยำสูงสุด...",
+      image: "/mindmaps/4.png"
+    },
+    {
+      id: "5",
+      year: "2026",
+      title: "Agents.md — AI Constitution",
+      description: "How structural specifications and coding guidelines shape the behavior, accuracy, and predictability of agentic development environments, creating reliable and autonomous system architectures.",
+      note: "การร่างกฎระเบียบและแนวทางปฏิบัติ เพื่อให้ระบบปัญญาประดิษฐ์ประมวลผลได้อย่างสม่ำเสมอ...",
+      image: "/mindmaps/5.png"
+    }
+  ];
 
-export default function Perspective({ items }: PerspectiveProps) {
-  // Sort items newest to oldest (standard feed style: newest first!)
-  const sortedItems = [...items].sort((a, b) => parseInt(b.year) - parseInt(a.year));
-
-  // Simulated Comments State keyed by post ID
+  const [activeMindmap, setActiveMindmap] = useState<MindmapItem>(mindmaps[0]);
+  const [toastMessage, setToastMessage] = useState("");
+  
+  // Simulated comments state
   const [comments, setComments] = useState<Record<string, Array<{ author: string; text: string }>>>({
-    "5": [
-      { author: "Tanya", text: "ยินดีด้วยกับพื้นที่บันทึกส่วนตัวที่อบอุ่นชิ้นนี้ครับพี่วี!" },
-      { author: "Nont", text: "Lover & Solver in one person. So inspiring." }
+    "1": [
+      { author: "Sara", text: "แผนภาพสรุปการแยกตัวของวิศวกรรมซอฟต์แวร์ได้ชัดเจนมากค่ะ!" },
+      { author: "Nont", text: "AI writes the code, human defines the intent. This is the future." }
     ],
-    "4": [
-      { author: "Student_A", text: "ขอบคุณสไลด์บรรยายของอาจารย์มากครับ เข้าใจสถาปัตยกรรมซอฟต์แวร์กระจายศูนย์ชัดเจนขึ้นมาก" }
+    "2": [
+      { author: "Engineer_X", text: "Software 3.0 อธิบายการเลื่อนระดับชั้นภาษาโปรแกรมมิ่งได้เห็นภาพสุดๆ" }
     ],
     "3": [
-      { author: "Researcher_X", text: "โจทย์ประมวลผลข้อมูลอัลกอริทึมซับซ้อนท้าทายสุดๆ ครับ คารวะฝีมือเลย" }
+      { author: "Dev_P", text: "ชอบแนวคิด Agentic Role (Planner, Coder, Reviewer) ครับ เอาไปใช้งานจริงเวิร์กมาก" }
     ]
   });
 
-  // Active inputs state keyed by post ID
   const [inputStates, setInputStates] = useState<Record<string, string>>({});
-  
-  // Detail expanded state keyed by post ID
-  const [expandedDetails, setExpandedDetails] = useState<Record<string, boolean>>({});
-
-  // Toast feedback state
-  const [toastMessage, setToastMessage] = useState("");
 
   const triggerToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(""), 2500);
   };
 
-  const handlePostComment = (postId: string) => {
-    const text = inputStates[postId]?.trim();
+  const handlePostComment = (id: string) => {
+    const text = inputStates[id]?.trim();
     if (!text) return;
 
-    const newComment = { author: "Visitor", text };
-    const currentPostComments = comments[postId] || [];
-    
+    const currentPostComments = comments[id] || [];
     setComments({
       ...comments,
-      [postId]: [...currentPostComments, newComment]
+      [id]: [...currentPostComments, { author: "Visitor", text }]
     });
-
-    // Clear input
-    setInputStates({
-      ...inputStates,
-      [postId]: ""
-    });
-    
+    setInputStates({ ...inputStates, [id]: "" });
     triggerToast("Comment posted!");
   };
 
-  const handleShare = (postId: string) => {
-    const shareUrl = `${window.location.origin}/perspective#post-${postId}`;
+  const handleShare = (id: string) => {
+    const shareUrl = `${window.location.origin}/perspective#mindmap-${id}`;
     navigator.clipboard.writeText(shareUrl);
     triggerToast("Link copied to clipboard! 🔗");
   };
 
-  const toggleDetail = (postId: string) => {
-    setExpandedDetails({
-      ...expandedDetails,
-      [postId]: !expandedDetails[postId]
-    });
-  };
-
-  // Helper to render beautiful visual covers for posts without direct photos
-  const renderVisualCover = (item: PerspectiveItem) => {
-    if (item.image) {
-      return (
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-full h-full object-cover"
-        />
-      );
-    }
-
-    // Soft editorial abstract meshes for timeline posts
-    let mesh = "from-amber-100 via-orange-100 to-amber-200/50";
-    if (parseInt(item.year) < 2010) {
-      mesh = "from-amber-200/40 via-yellow-100 to-orange-100/50";
-    } else if (parseInt(item.year) < 2020) {
-      mesh = "from-orange-100/40 via-amber-100 to-teal-100/30";
-    } else if (parseInt(item.year) <= 2026) {
-      mesh = "from-teal-50 via-amber-50 to-amber-100/40";
-    }
-
-    return (
-      <div className={`w-full h-full bg-gradient-to-br ${mesh} flex items-center justify-center p-8 relative overflow-hidden`}>
-        <div className="absolute inset-0 bg-radial-gradient from-cream-bg/20 to-transparent pointer-events-none" />
-        <div className="text-center z-10 p-6 rounded-2xl bg-cream-bg/65 backdrop-blur-[2px] border border-cream-muted/20 shadow-sm max-w-xs">
-          <span className="font-serif italic text-6xl lg:text-7xl font-bold text-cream-mid/30 select-none block leading-none mb-2">
-            {item.year}
-          </span>
-          <span className="text-[10px] uppercase tracking-widest font-bold text-cream-mid block border-t border-cream-muted/30 pt-2">
-            Historical Moment
-          </span>
-        </div>
-      </div>
-    );
-  };
+  const activeComments = comments[activeMindmap.id] || [];
 
   return (
-    <div className="max-w-xl mx-auto px-4 sm:px-6 flex flex-col gap-10">
+    <div className="max-w-6xl mx-auto px-6 flex flex-col gap-10">
       
-      {/* Dynamic Toast Feedback */}
+      {/* Toast alert */}
       {toastMessage && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-cream-ink text-cream-bg rounded-full text-xs font-semibold uppercase tracking-wider shadow-lg animate-fade-in">
           {toastMessage}
         </div>
       )}
 
-      {/* Page Description Header */}
-      <div className="text-center border-b border-cream-muted/30 pb-8 mb-4">
-        <div className="flex justify-center items-center gap-2 text-cream-mid font-serif italic text-lg mb-2">
-          <BookOpen size={18} />
-          <span>Perspective Journals</span>
+      {/* Netflix Screen: Large active mindmap */}
+      <div className="bg-zinc-950 rounded-3xl overflow-hidden border border-cream-muted/20 shadow-2xl relative min-h-[500px] flex flex-col justify-end p-6 sm:p-12 text-white">
+        
+        {/* Active Mindmap Backdrop Cover with Bottom Creamy Gradient */}
+        <div className="absolute inset-0 bg-zinc-950">
+          <img 
+            src={activeMindmap.image} 
+            alt={activeMindmap.title}
+            className="w-full h-full object-contain object-right opacity-60 pointer-events-none transition-all duration-700"
+          />
+          {/* Netflix-style ambient overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/50 to-transparent" />
         </div>
-        <h2 className="font-serif italic text-4xl text-cream-ink font-semibold">
-          กระดาษแผ่นยาวของชีวิต
-        </h2>
-        <p className="text-xs text-cream-mid uppercase tracking-widest font-semibold mt-1">
-          vetanboon timeline feed
-        </p>
+
+        {/* Netflix Card Detail overlay */}
+        <div className="relative z-10 max-w-xl flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-bold tracking-widest uppercase bg-red-600 text-white px-2 py-0.5 rounded">
+              TOP 10
+            </span>
+            <span className="text-xs uppercase tracking-widest font-semibold text-cream-muted">
+              Chapter {activeMindmap.id} • Year {activeMindmap.year}
+            </span>
+          </div>
+
+          {/* Title */}
+          <h2 className="font-serif italic text-3xl sm:text-5xl font-bold leading-tight tracking-wide text-cream-bg">
+            {activeMindmap.title}
+          </h2>
+
+          {/* Handwritten caption (replacing netflix movie short recap!) */}
+          <p className="font-handwriting text-2xl sm:text-3xl text-amber-200/90 leading-snug">
+            "{activeMindmap.note}"
+          </p>
+
+          {/* Description */}
+          <p className="text-xs sm:text-sm text-zinc-300 font-sans font-light leading-relaxed">
+            {activeMindmap.description}
+          </p>
+
+          {/* Actions */}
+          <div className="flex flex-wrap items-center gap-4 mt-2">
+            <button 
+              onClick={() => handleShare(activeMindmap.id)}
+              className="px-6 py-2.5 bg-cream-bg text-cream-ink hover:bg-cream-surface rounded-lg font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
+            >
+              <Send size={14} /> Copy Direct Share Link
+            </button>
+            <a 
+              href="#comments-section"
+              className="px-6 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors flex items-center gap-2"
+            >
+              <MessageCircle size={14} /> View Comments ({activeComments.length})
+            </a>
+          </div>
+        </div>
+
+        {/* Netflix rating tag */}
+        <span className="absolute bottom-12 right-0 bg-zinc-800/80 border-l-4 border-amber-500 py-1.5 px-4 text-xs font-mono font-semibold tracking-widest select-none">
+          16+ ADVANCED RESEARCH
+        </span>
       </div>
 
-      {/* Instagram Feed List */}
-      <div className="flex flex-col gap-12">
-        {sortedItems.map((item) => {
-          const postComments = comments[item.id] || [];
-          const isExpanded = expandedDetails[item.id] || false;
+      {/* Row Section: Horizontal Card Thumbnails */}
+      <div>
+        <h3 className="text-xs uppercase tracking-widest font-bold text-cream-mid mb-4">
+          เนื่องจากคุณศึกษา วิศวกรรมระบบปัญญาประดิษฐ์ (Continuous Timeline Feed)
+        </h3>
 
-          return (
-            <article 
-              key={item.id} 
-              id={`post-${item.id}`}
-              className="bg-cream-bg border border-cream-muted/50 rounded-xl overflow-hidden shadow-sm"
-            >
-              {/* Post Header: Profile & Location info */}
-              <div className="p-4 flex items-center justify-between border-b border-cream-muted/20 bg-cream-bg">
-                <div className="flex items-center gap-3">
-                  {/* User Profile Avatar */}
-                  <div className="relative w-9 h-9 rounded-full overflow-hidden border border-cream-muted/40 bg-cream-surface flex items-center justify-center text-cream-mid">
-                    <Image
-                      src="/ve_portrait.png"
-                      alt="Ve Avatar"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <span className="font-sans font-semibold text-xs tracking-wider text-cream-ink block">
-                      vetanboon
-                    </span>
-                    <span className="text-[10px] text-cream-mid font-light block">
-                      {item.title} • {item.year}
-                    </span>
-                  </div>
-                </div>
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none scroll-smooth">
+          {mindmaps.map((item) => {
+            const isActive = activeMindmap.id === item.id;
+            return (
+              <div
+                key={item.id}
+                onClick={() => setActiveMindmap(item)}
+                className={`flex-shrink-0 w-[180px] sm:w-[240px] aspect-video rounded-xl overflow-hidden border cursor-pointer transition-all duration-300 relative group bg-zinc-950 ${
+                  isActive 
+                    ? "border-amber-400 ring-4 ring-amber-400/20 scale-[1.03] z-10" 
+                    : "border-cream-muted/40 hover:scale-[1.03] hover:border-cream-mid"
+                }`}
+              >
+                <img 
+                  src={item.image} 
+                  alt={item.title}
+                  className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity"
+                />
                 
-                {/* Visual Dot Pin */}
-                <div className="w-1.5 h-1.5 rounded-full bg-cream-mid/60" />
-              </div>
-
-              {/* Main Media Visual Cover */}
-              <div className="aspect-square w-full border-b border-cream-muted/20 relative bg-cream-surface/20">
-                {renderVisualCover(item)}
-              </div>
-
-              {/* Post Actions (Likes excluded per request) */}
-              <div className="p-4 flex items-center gap-4 border-b border-cream-muted/10">
-                <button 
-                  onClick={() => toggleDetail(item.id)}
-                  className="text-cream-mid hover:text-cream-ink transition-colors focus:outline-none"
-                  title="View comments & details"
-                >
-                  <MessageCircle size={20} />
-                </button>
-                <button 
-                  onClick={() => handleShare(item.id)}
-                  className="text-cream-mid hover:text-cream-ink transition-colors focus:outline-none"
-                  title="Share post link"
-                >
-                  <Send size={18} />
-                </button>
-              </div>
-
-              {/* Caption & Intimate thoughts */}
-              <div className="px-4 py-3 flex flex-col gap-2 bg-cream-bg">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-sans font-bold text-xs tracking-wider text-cream-ink">
-                    vetanboon
-                  </span>
-                  {/* Handwritten diary entry caption! */}
-                  <p className="font-handwriting text-xl sm:text-2xl text-cream-ink/90 leading-tight">
-                    {item.note}
-                  </p>
-                </div>
-
-                {/* Collapsible details block */}
-                <div className="mt-1">
-                  {isExpanded ? (
-                    <div className="text-xs sm:text-sm text-cream-ink/80 leading-relaxed font-sans font-light border-t border-cream-muted/25 pt-2 mt-2 animate-fade-in">
-                      {item.description}
-                      <button 
-                        onClick={() => toggleDetail(item.id)}
-                        className="text-[10px] font-bold text-cream-mid hover:text-cream-ink block mt-1 uppercase tracking-wider"
-                      >
-                        Hide details
-                      </button>
-                    </div>
-                  ) : (
-                    <button 
-                      onClick={() => toggleDetail(item.id)}
-                      className="text-[10px] font-bold text-cream-mid hover:text-cream-ink uppercase tracking-wider block"
-                    >
-                      View historical details...
-                    </button>
-                  )}
+                {/* Netflix-style category tag overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <span className="text-[9px] font-bold text-amber-300 tracking-wider block">CHAPTER {item.id}</span>
+                  <span className="text-[10px] font-bold text-white leading-tight truncate block">{item.title}</span>
                 </div>
               </div>
+            );
+          })}
+        </div>
+      </div>
 
-              {/* Comments Feed Area */}
-              <div className="px-4 pb-3 border-t border-cream-muted/10 bg-cream-surface/10">
-                {postComments.length > 0 && (
-                  <div className="py-2 flex flex-col gap-1.5 max-h-28 overflow-y-auto border-b border-cream-muted/15">
-                    {postComments.map((comment, index) => (
-                      <div key={index} className="text-[11px] sm:text-xs leading-relaxed">
-                        <span className="font-semibold text-cream-ink mr-2">{comment.author}</span>
-                        <span className="text-cream-ink/80 font-light">{comment.text}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+      {/* Interactive Comments Area for Active Mindmap */}
+      <div id="comments-section" className="bg-cream-surface/20 border border-cream-muted/30 rounded-2xl p-6 sm:p-8 mt-4 animate-fade-in">
+        <h3 className="text-xs uppercase tracking-widest font-bold text-cream-mid mb-4 flex items-center gap-2">
+          <MessageCircle size={14} /> Comments and reflection on "{activeMindmap.title}"
+        </h3>
 
-                {/* Comment Input */}
-                <div className="flex items-center gap-2 pt-2">
-                  <input
-                    type="text"
-                    placeholder="Add a comment..."
-                    value={inputStates[item.id] || ""}
-                    onChange={(e) => setInputStates({ ...inputStates, [item.id]: e.target.value })}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handlePostComment(item.id);
-                    }}
-                    className="flex-grow bg-transparent border-none text-xs text-cream-ink placeholder-cream-mid/70 focus:outline-none font-light py-1"
-                  />
-                  <button
-                    onClick={() => handlePostComment(item.id)}
-                    className="text-xs font-bold uppercase tracking-wider text-cream-mid hover:text-cream-ink transition-colors disabled:opacity-40"
-                    disabled={!inputStates[item.id]?.trim()}
-                  >
-                    Post
-                  </button>
+        {/* Comment list */}
+        <div className="flex flex-col gap-4 border-b border-cream-muted/20 pb-6 mb-6 max-h-[300px] overflow-y-auto pr-2">
+          {activeComments.length === 0 ? (
+            <p className="text-xs text-cream-mid italic font-light">No comments posted yet on this chapter. Be the first to share your thoughts!</p>
+          ) : (
+            activeComments.map((comment, index) => (
+              <div 
+                key={index} 
+                className="bg-cream-bg border border-cream-muted/20 p-4 rounded-xl shadow-sm text-xs leading-relaxed flex flex-col gap-1 transition-all"
+              >
+                <div className="flex justify-between items-baseline">
+                  <span className="font-semibold text-cream-ink">{comment.author}</span>
+                  <span className="text-[9px] text-cream-mid font-mono">posted just now</span>
                 </div>
+                <p className="text-cream-ink/80 font-light">{comment.text}</p>
               </div>
+            ))
+          )}
+        </div>
 
-            </article>
-          );
-        })}
+        {/* Add comment input */}
+        <div className="flex gap-3 items-center">
+          <input
+            type="text"
+            placeholder="Add your comment or question..."
+            value={inputStates[activeMindmap.id] || ""}
+            onChange={(e) => setInputStates({ ...inputStates, [activeMindmap.id]: e.target.value })}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handlePostComment(activeMindmap.id);
+            }}
+            className="flex-grow px-4 py-2.5 rounded-lg border border-cream-muted/50 bg-cream-bg text-cream-ink text-xs focus:outline-none focus:border-cream-mid font-light"
+          />
+          <button
+            onClick={() => handlePostComment(activeMindmap.id)}
+            disabled={!inputStates[activeMindmap.id]?.trim()}
+            className="px-5 py-2.5 bg-cream-ink text-cream-bg text-xs font-semibold uppercase tracking-widest rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40"
+          >
+            Post
+          </button>
+        </div>
       </div>
 
     </div>

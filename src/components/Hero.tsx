@@ -93,13 +93,6 @@ export default function Hero() {
                 <span>Enter Reflective</span>
                 <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
-              <Link 
-                href="/eatver"
-                className="px-6 py-3 bg-cream-surface hover:bg-cream-muted/20 border border-cream-muted text-cream-ink rounded-full font-sans font-semibold text-xs tracking-wider uppercase shadow-sm transition-all duration-300 hover:shadow flex items-center justify-between gap-4 group"
-              >
-                <span>Enter Eatver</span>
-                <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
             </div>
           </div>
         </div>

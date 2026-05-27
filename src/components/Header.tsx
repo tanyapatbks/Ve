@@ -50,10 +50,7 @@ export default function Header() {
             Reflective
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cream-mid transition-all duration-300 group-hover:w-full"></span>
           </Link>
-          <Link href="/eatver" className="hover:text-cream-mid transition-colors relative py-1 group">
-            Eatver
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cream-mid transition-all duration-300 group-hover:w-full"></span>
-          </Link>
+
           <Link href="/admin" className="px-4 py-2 border border-cream-mid/50 rounded-full hover:bg-cream-surface transition-all duration-300 text-xs font-semibold text-cream-mid">
             Admin
           </Link>
@@ -92,13 +89,7 @@ export default function Header() {
           >
             Reflective
           </Link>
-          <Link 
-            href="/eatver" 
-            onClick={() => setMobileMenuOpen(false)}
-            className="hover:text-cream-mid transition-colors py-2 border-b border-cream-surface"
-          >
-            Eatver
-          </Link>
+
           <Link 
             href="/admin" 
             onClick={() => setMobileMenuOpen(false)}

@@ -17,13 +17,11 @@ async function getPerspectiveData() {
 }
 
 export default async function PerspectivePage() {
-  const items = await getPerspectiveData();
-
   return (
     <div className="flex flex-col min-h-screen bg-cream-bg pt-20">
       <Header />
       <main className="flex-grow py-12">
-        <Perspective items={items} />
+        <Perspective />
       </main>
       <Footer />
     </div>

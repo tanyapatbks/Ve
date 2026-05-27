@@ -34,20 +34,8 @@ export default function Reflective({ items }: ReflectiveProps) {
   return (
     <section className="bg-cream-bg min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Header */}
-        <div className="max-w-3xl mb-14 border-b border-cream-muted/30 pb-8">
-          <div className="flex items-center gap-3 text-cream-mid font-serif italic text-lg mb-2">
-            <GraduationCap size={20} />
-            <span>Reflective space</span>
-          </div>
-          <h2 className="font-serif italic text-4xl lg:text-6xl text-cream-ink leading-tight font-medium">
-            สื่อการสอนและความรู้ที่อยากส่งต่อ
-          </h2>
-          <p className="text-xs text-cream-mid uppercase tracking-widest font-semibold mt-1">
-            Lectures & Computational Resources
-          </p>
-        </div>
+        {/* Spacing above the contents to make it look great since header is gone */}
+        <div className="pt-6" />
 
         {/* Video Lectures Grid Section */}
         <div className="mb-16">

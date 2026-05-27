@@ -14,14 +14,13 @@ export default function AdminPage() {
   const [toast, setToast] = useState({ message: "", type: "" });
   
   // Tab control
-  const [activeTab, setActiveTab] = useState<"perspective" | "creative" | "reflective" | "eatver">("perspective");
+  const [activeTab, setActiveTab] = useState<"perspective" | "creative" | "reflective">("perspective");
   
   // Database state
   const [db, setDb] = useState<any>({
     perspective: [],
     creative: [],
-    reflective: [],
-    eatver: []
+    reflective: []
   });
 
   // Modal forms state
@@ -126,8 +125,6 @@ export default function AdminPage() {
       emptyItem = { ...emptyItem, title: "", category: "Moments", year: "", description: "", image: "" };
     } else if (activeTab === "reflective") {
       emptyItem = { ...emptyItem, title: "", description: "", link: "", type: "Lecture", duration: "19:00", views: 133, age: "9 months ago" };
-    } else if (activeTab === "eatver") {
-      emptyItem = { ...emptyItem, name: "", category: "Cafe", lat: 13.74, lng: 100.52, review: "", rating: 5, image: "" };
     }
     setFormState(emptyItem);
     setIsEditing("new");
@@ -138,11 +135,7 @@ export default function AdminPage() {
     let updatedSection = [...db[activeTab]];
 
     const finalFormState = { ...formState };
-    if (activeTab === "eatver") {
-      finalFormState.lat = parseFloat(finalFormState.lat) || 13.74;
-      finalFormState.lng = parseFloat(finalFormState.lng) || 100.52;
-      finalFormState.rating = parseFloat(finalFormState.rating) || 5;
-    }
+
 
     if (activeTab === "reflective" && finalFormState.type.toLowerCase() === "lecture") {
       finalFormState.views = parseInt(finalFormState.views) || 133;
@@ -280,14 +273,7 @@ export default function AdminPage() {
           >
             <Video size={16} /> Reflective
           </button>
-          <button
-            onClick={() => { setActiveTab("eatver"); setIsEditing(null); }}
-            className={`w-full text-left px-4 py-3 rounded-lg text-xs font-semibold uppercase tracking-wider flex items-center gap-2.5 transition-all ${
-              activeTab === "eatver" ? "bg-cream-ink text-cream-bg shadow-sm" : "hover:bg-cream-surface text-cream-mid hover:text-cream-ink"
-            }`}
-          >
-            <MapPin size={16} /> Eatver
-          </button>
+
         </aside>
 
         {/* Content Panel */}
@@ -515,84 +501,7 @@ export default function AdminPage() {
                 </div>
               )}
 
-              {activeTab === "eatver" && (
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Place Name</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Contemplative Cafe"
-                        value={formState.name || ""}
-                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                        className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Category</label>
-                      <select
-                        value={formState.category || "Cafe"}
-                        onChange={(e) => setFormState({ ...formState, category: e.target.value })}
-                        className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
-                      >
-                        <option value="Cafe">Cafe</option>
-                        <option value="Restaurant">Restaurant</option>
-                        <option value="Sightseeing">Sightseeing</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Rating (1-5)</label>
-                      <input
-                        type="number"
-                        min="1"
-                        max="5"
-                        step="0.1"
-                        value={formState.rating || 5}
-                        onChange={(e) => setFormState({ ...formState, rating: e.target.value })}
-                        className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
-                        required
-                      />
-                    </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Latitude</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. 13.7563"
-                        value={formState.lat || ""}
-                        onChange={(e) => setFormState({ ...formState, lat: e.target.value })}
-                        className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Longitude</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. 100.5018"
-                        value={formState.lng || ""}
-                        onChange={(e) => setFormState({ ...formState, lng: e.target.value })}
-                        className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider font-semibold text-cream-mid mb-1">Personal Review</label>
-                    <textarea
-                      placeholder="Write your contemplative review..."
-                      value={formState.review || ""}
-                      onChange={(e) => setFormState({ ...formState, review: e.target.value })}
-                      className="w-full px-3 py-2 border border-cream-muted/50 rounded-lg text-xs bg-cream-bg text-cream-ink focus:outline-none h-24"
-                      required
-                    />
-                  </div>
-                </div>
-              )}
 
               {/* Form Buttons */}
               <div className="flex gap-3 border-t border-cream-muted/30 pt-4 mt-6">

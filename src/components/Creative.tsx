@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { Sparkles, MessageCircle, Send, Calendar, Layers } from "lucide-react";
+import { useState, useRef } from "react";
+import { Sparkles, MessageCircle, Send, Calendar, Layers, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CreativeItem {
   id: string;
@@ -19,6 +18,7 @@ interface CreativeProps {
 
 export default function Creative({ items }: CreativeProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const categories = ["All", "Moments", "Creations", "Archive"];
 
@@ -70,13 +70,26 @@ export default function Creative({ items }: CreativeProps) {
     triggerToast("Link copied to clipboard! 🔗");
   };
 
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -400, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 400, behavior: "smooth" });
+    }
+  };
+
   const renderThumbnail = (item: CreativeItem) => {
     if (item.image) {
       return (
         <img 
           src={item.image} 
           alt={item.title} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover select-none"
+          draggable="false"
         />
       );
     }
@@ -90,7 +103,7 @@ export default function Creative({ items }: CreativeProps) {
     }
 
     return (
-      <div className={`w-full h-full bg-gradient-to-tr ${gradient} flex flex-col justify-between p-8 relative overflow-hidden`}>
+      <div className={`w-full h-full bg-gradient-to-tr ${gradient} flex flex-col justify-between p-8 relative overflow-hidden select-none`}>
         <div className="absolute inset-0 bg-radial-gradient from-cream-bg/25 to-transparent pointer-events-none" />
         <div className="flex justify-between items-start z-10">
           <span className="text-xs uppercase tracking-widest font-bold text-cream-mid">{item.category}</span>
@@ -105,7 +118,7 @@ export default function Creative({ items }: CreativeProps) {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 sm:px-6 flex flex-col gap-10">
+    <div className="h-full w-full flex flex-col justify-between bg-cream-bg overflow-hidden relative">
       
       {/* Dynamic Toast Feedback */}
       {toastMessage && (
@@ -114,28 +127,30 @@ export default function Creative({ items }: CreativeProps) {
         </div>
       )}
 
-      {/* Header with Category Filter */}
-      <div className="border-b border-cream-muted/30 pb-8 mb-4 flex flex-col items-center gap-6">
-        <div className="text-center">
-          <div className="flex justify-center items-center gap-2 text-cream-mid font-serif italic text-lg mb-2">
-            <Sparkles size={18} />
-            <span>Creative Collections</span>
+      {/* Top Header Panel: Navigation & Filters */}
+      <div className="px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-cream-muted/20 bg-cream-bg z-10">
+        <div>
+          <div className="flex items-center gap-2 text-cream-mid font-serif italic text-sm mb-0.5">
+            <Sparkles size={14} className="animate-pulse" />
+            <span>Creative Gallery</span>
           </div>
-          <h2 className="font-serif italic text-4xl text-cream-ink font-semibold">
+          <h2 className="font-serif italic text-2xl text-cream-ink font-semibold">
             ผลงานและสิ่งที่สะสม
           </h2>
-          <p className="text-xs text-cream-mid uppercase tracking-widest font-semibold mt-1">
-            moments & creations feed
-          </p>
         </div>
 
-        {/* Categories Tab */}
-        <div className="flex flex-wrap gap-2 justify-center border-t border-cream-muted/15 pt-4 w-full">
+        {/* Category Selector Pills */}
+        <div className="flex flex-wrap gap-2">
           {categories.map(cat => (
             <button
               key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-1.5 text-xs uppercase tracking-widest font-semibold rounded-full border transition-all duration-300 ${
+              onClick={() => {
+                setActiveCategory(cat);
+                if (scrollContainerRef.current) {
+                  scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+                }
+              }}
+              className={`px-4 py-1.5 text-[10px] uppercase tracking-widest font-semibold rounded-full border transition-all duration-300 ${
                 activeCategory === cat
                   ? "bg-cream-ink text-cream-bg border-cream-ink shadow-sm"
                   : "bg-transparent text-cream-mid border-cream-muted/30 hover:border-cream-mid hover:text-cream-ink"
@@ -147,123 +162,151 @@ export default function Creative({ items }: CreativeProps) {
         </div>
       </div>
 
-      {/* Instagram Feed List */}
-      <div className="flex flex-col gap-12">
-        {sortedItems.map((item) => {
-          const postComments = comments[item.id] || [];
+      {/* Center Horizontal Track Container */}
+      <div className="flex-grow w-full relative flex items-center justify-center overflow-hidden">
+        
+        {/* Navigation Arrows for desktop */}
+        <button 
+          onClick={scrollLeft}
+          className="absolute left-4 z-20 p-3 rounded-full bg-cream-surface/80 backdrop-blur border border-cream-muted/30 text-cream-ink hover:bg-cream-bg transition-colors shadow-md hidden md:flex items-center justify-center"
+          title="Scroll Left"
+        >
+          <ChevronLeft size={20} />
+        </button>
 
-          return (
-            <article 
-              key={item.id} 
-              id={`post-${item.id}`}
-              className="bg-cream-bg border border-cream-muted/50 rounded-xl overflow-hidden shadow-sm animate-fade-in"
-            >
-              {/* Post Header: Profile & Location info */}
-              <div className="p-4 flex items-center justify-between border-b border-cream-muted/20 bg-cream-bg">
-                <div className="flex items-center gap-3">
-                  {/* User Profile Avatar */}
-                  <div className="relative w-9 h-9 rounded-full overflow-hidden border border-cream-muted/40 bg-cream-surface flex items-center justify-center text-cream-mid">
-                    <Image
-                      src="/ve_portrait.png"
-                      alt="Ve Avatar"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <span className="font-sans font-semibold text-xs tracking-wider text-cream-ink block">
-                      vetanboon
-                    </span>
-                    <span className="text-[10px] text-cream-mid font-light block">
-                      {item.title} • {item.year}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Category Badge */}
-                <span className="text-[9px] uppercase tracking-widest font-bold bg-cream-surface text-cream-mid px-2.5 py-1 rounded-full border border-cream-muted/20">
-                  {item.category}
-                </span>
-              </div>
+        <button 
+          onClick={scrollRight}
+          className="absolute right-4 z-20 p-3 rounded-full bg-cream-surface/80 backdrop-blur border border-cream-muted/30 text-cream-ink hover:bg-cream-bg transition-colors shadow-md hidden md:flex items-center justify-center"
+          title="Scroll Right"
+        >
+          <ChevronRight size={20} />
+        </button>
 
-              {/* Main Media Visual Cover */}
-              <div className="aspect-square w-full border-b border-cream-muted/20 relative overflow-hidden bg-cream-surface/20">
-                {renderThumbnail(item)}
-              </div>
+        {/* Horizontal Scroll Deck */}
+        <div 
+          ref={scrollContainerRef}
+          className="w-full h-full flex flex-row items-center gap-6 sm:gap-10 px-6 sm:px-12 md:px-24 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none"
+        >
+          {sortedItems.length === 0 ? (
+            <div className="w-full text-center py-20 text-cream-mid italic font-light text-sm select-none">
+              No items in this category yet.
+            </div>
+          ) : (
+            sortedItems.map((item) => {
+              const postComments = comments[item.id] || [];
 
-              {/* Post Actions (Likes excluded per request) */}
-              <div className="p-4 flex items-center gap-4 border-b border-cream-muted/10">
-                <button 
-                  className="text-cream-mid hover:text-cream-ink transition-colors focus:outline-none"
-                  title="View comments"
+              return (
+                <article 
+                  key={item.id} 
+                  id={`post-${item.id}`}
+                  className="snap-center flex-shrink-0 w-[88vw] md:w-[75vw] lg:w-[65vw] max-w-4xl h-[68vh] md:h-[62vh] bg-cream-bg border border-cream-muted/40 rounded-3xl overflow-hidden shadow-md flex flex-col md:flex-row transition-all duration-300 hover:border-cream-mid hover:shadow-lg animate-fade-in"
                 >
-                  <MessageCircle size={20} />
-                </button>
-                <button 
-                  onClick={() => handleShare(item.id)}
-                  className="text-cream-mid hover:text-cream-ink transition-colors focus:outline-none"
-                  title="Share post link"
-                >
-                  <Send size={18} />
-                </button>
-              </div>
+                  
+                  {/* Visual Frame: Left / Top */}
+                  <div className="w-full md:w-1/2 h-[40%] md:h-full relative overflow-hidden bg-cream-surface/10 border-b md:border-b-0 md:border-r border-cream-muted/20">
+                    {renderThumbnail(item)}
+                  </div>
 
-              {/* Caption & Description details */}
-              <div className="px-4 py-3 flex flex-col gap-2 bg-cream-bg">
-                <div className="flex items-baseline gap-2">
-                  <span className="font-sans font-bold text-xs tracking-wider text-cream-ink">
-                    vetanboon
-                  </span>
-                  <p className="text-xs sm:text-sm text-cream-ink/90 font-light leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 text-[10px] text-cream-mid font-semibold uppercase tracking-wider mt-1">
-                  <span className="flex items-center gap-0.5"><Layers size={10} /> {item.category}</span>
-                  <span className="w-1 h-1 rounded-full bg-cream-muted" />
-                  <span className="flex items-center gap-0.5"><Calendar size={10} /> {item.year}</span>
-                </div>
-              </div>
-
-              {/* Comments Feed Area */}
-              <div className="px-4 pb-3 border-t border-cream-muted/10 bg-cream-surface/10">
-                {postComments.length > 0 && (
-                  <div className="py-2 flex flex-col gap-1.5 max-h-28 overflow-y-auto border-b border-cream-muted/15">
-                    {postComments.map((comment, index) => (
-                      <div key={index} className="text-[11px] sm:text-xs leading-relaxed">
-                        <span className="font-semibold text-cream-ink mr-2">{comment.author}</span>
-                        <span className="text-cream-ink/80 font-light">{comment.text}</span>
+                  {/* Details Card Content: Right / Bottom */}
+                  <div className="w-full md:w-1/2 h-[60%] md:h-full flex flex-col justify-between p-5 sm:p-7 bg-cream-bg">
+                    
+                    {/* Top Row: Meta Badge & Share Button */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] uppercase tracking-widest font-bold bg-cream-surface text-cream-mid px-2.5 py-1 rounded-full border border-cream-muted/20">
+                        {item.category}
+                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] text-cream-mid font-mono flex items-center gap-1">
+                          <Calendar size={11} /> {item.year}
+                        </span>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Content text */}
+                    <div className="my-2.5">
+                      <h3 className="font-serif italic text-xl sm:text-2xl font-bold text-cream-ink leading-tight mb-1">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-cream-ink/80 font-sans font-light leading-relaxed max-h-[80px] overflow-y-auto pr-1">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    {/* Interactive Comments Area for each creation */}
+                    <div className="flex-grow flex flex-col justify-between border-t border-cream-muted/20 pt-3 mt-1 overflow-hidden">
+                      <span className="text-[9px] uppercase tracking-widest font-bold text-cream-mid mb-2 flex items-center gap-1">
+                        <MessageCircle size={10} /> Thoughts & Comments ({postComments.length})
+                      </span>
+
+                      {/* Comment feed block */}
+                      <div className="flex-grow overflow-y-auto max-h-[110px] mb-3 pr-1 flex flex-col gap-2">
+                        {postComments.length === 0 ? (
+                          <p className="text-[10px] text-cream-mid/70 italic font-light py-2">Be the first to share your thoughts on this creation...</p>
+                        ) : (
+                          postComments.map((comment, index) => (
+                            <div key={index} className="text-[11px] leading-relaxed bg-cream-surface/20 border border-cream-muted/10 p-2 rounded-xl">
+                              <div className="flex justify-between items-center mb-0.5">
+                                <span className="font-semibold text-cream-ink">{comment.author}</span>
+                                <span className="text-[8px] text-cream-mid font-mono">just now</span>
+                              </div>
+                              <p className="text-cream-ink/85 font-light">{comment.text}</p>
+                            </div>
+                          ))
+                        )}
+                      </div>
+
+                      {/* Comment input widget */}
+                      <div className="flex items-center gap-2 pt-2 border-t border-cream-muted/10 bg-cream-bg">
+                        <input
+                          type="text"
+                          placeholder="Write a thought..."
+                          value={inputStates[item.id] || ""}
+                          onChange={(e) => setInputStates({ ...inputStates, [item.id]: e.target.value })}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") handlePostComment(item.id);
+                          }}
+                          className="flex-grow px-3 py-1.5 rounded-lg border border-cream-muted/40 bg-cream-surface/10 text-xs text-cream-ink placeholder-cream-mid/60 focus:outline-none focus:border-cream-mid font-light"
+                        />
+                        <button
+                          onClick={() => handlePostComment(item.id)}
+                          className="px-3 py-1.5 bg-cream-ink text-cream-bg text-[10px] font-semibold uppercase tracking-wider rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40"
+                          disabled={!inputStates[item.id]?.trim()}
+                        >
+                          Post
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Bottom Actions Row */}
+                    <div className="flex items-center justify-between border-t border-cream-muted/15 pt-3 mt-3">
+                      <span className="text-[9px] uppercase tracking-widest font-bold text-cream-mid flex items-center gap-1">
+                        <Layers size={10} /> {item.category} Series
+                      </span>
+                      
+                      <button 
+                        onClick={() => handleShare(item.id)}
+                        className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-cream-mid hover:text-cream-ink transition-colors"
+                        title="Copy direct share link"
+                      >
+                        <Send size={11} /> Copy Share Link
+                      </button>
+                    </div>
+
                   </div>
-                )}
 
-                {/* Comment Input */}
-                <div className="flex items-center gap-2 pt-2">
-                  <input
-                    type="text"
-                    placeholder="Add a comment..."
-                    value={inputStates[item.id] || ""}
-                    onChange={(e) => setInputStates({ ...inputStates, [item.id]: e.target.value })}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") handlePostComment(item.id);
-                    }}
-                    className="flex-grow bg-transparent border-none text-xs text-cream-ink placeholder-cream-mid/70 focus:outline-none font-light py-1"
-                  />
-                  <button
-                    onClick={() => handlePostComment(item.id)}
-                    className="text-xs font-bold uppercase tracking-wider text-cream-mid hover:text-cream-ink transition-colors disabled:opacity-40"
-                    disabled={!inputStates[item.id]?.trim()}
-                  >
-                    Post
-                  </button>
-                </div>
-              </div>
+                </article>
+              );
+            })
+          )}
+        </div>
 
-            </article>
-          );
-        })}
+      </div>
+
+      {/* Swipe/Scroll Help Info Bar */}
+      <div className="py-2.5 bg-cream-surface/30 border-t border-cream-muted/20 text-center select-none z-10">
+        <p className="text-[9px] tracking-widest uppercase font-bold text-cream-mid">
+          ✦ Swipe or Scroll horizontally to explore creations ✦
+        </p>
       </div>
 
     </div>

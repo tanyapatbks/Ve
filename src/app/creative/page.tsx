@@ -20,12 +20,11 @@ export default async function CreativePage() {
   const items = await getCreativeData();
 
   return (
-    <div className="flex flex-col min-h-screen bg-cream-bg pt-20">
+    <div className="flex flex-col h-screen overflow-hidden bg-cream-bg">
       <Header />
-      <main className="flex-grow py-12">
+      <main className="flex-grow pt-20 h-[calc(100vh-80px)] overflow-hidden">
         <Creative items={items} />
       </main>
-      <Footer />
     </div>
   );
 }
